@@ -8,6 +8,7 @@ import datetime
 import sqlite3
 from selenium import webdriver
 import time
+import csv
 
     #check if df is empty
 def check_if_valid_data(df: pd.DataFrame) -> bool:
@@ -53,9 +54,9 @@ def run_spotify_etl():
     time.sleep(3)
     facebook_username = browser.find_element_by_xpath("/html/body/div[1]/div[3]/div[1]/div/div/div[2]/div[1]/form/div/div[1]/input")
     facebook_password = browser.find_element_by_xpath("/html/body/div[1]/div[3]/div[1]/div/div/div[2]/div[1]/form/div/div[2]/input")
-    facebook_username.send_keys("write your facebok e-mail")
+    facebook_username.send_keys("Your facebook email")
     time.sleep(1)
-    facebook_password.send_keys("write your facebook password")
+    facebook_password.send_keys("Your facebook password")
     time.sleep(2)
     facebook_sign_in = browser.find_element_by_xpath("/html/body/div[1]/div[3]/div[1]/div/div/div[2]/div[1]/form/div/div[3]/button")
     facebook_sign_in.click()
@@ -121,6 +122,7 @@ def run_spotify_etl():
     """
     cursor.execute(sql_query)
     print("Opened database successfully")
+
     try:
         song_df.to_sql("played_tracks",engine,index=False,if_exists="append")
     

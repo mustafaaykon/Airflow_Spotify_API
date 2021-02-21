@@ -10,7 +10,7 @@ default_args = {
     'owner':'airflow',
     'depends_on_past' : False,
     'start_date' : days_ago(0, 0, 0, 0, 0),
-    'email': ["mustafa.aykon@icloud.com"],
+    'email': ["mustafa.aykon@gmail.com"],
     'email_on_failure':False,
     'email_on_retry':False,
     'retries':1,
@@ -31,4 +31,13 @@ run_etl = PythonOperator(
     dag=dag
 )
 
-run_etl
+email_task = EmailOperator(
+    task_id = "email_operator",
+    to = "mustafa.aykon@gmail.com",
+    subject = "Automated Report",
+    html_content = "<p> This is automatic email about spotify API <p>",
+    files = ["played_tracks.sqlite"],
+    dag=dag
+ )
+
+run_etl >> email_task
